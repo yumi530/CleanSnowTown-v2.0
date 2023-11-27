@@ -9,7 +9,8 @@
 ## 프로젝트 설치 및 실행 방법
 ### 프론트
 ```
-cd front
+cd frontend
+npm start
 ```
 
 ### 백엔드
