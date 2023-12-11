@@ -1,25 +1,19 @@
-import logo from './logo.svg';
-import './App.css';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import LandingPage from "./components/views/LandingPage/LandingPage";
+import LoginPage from "./components/views/LoginPage/LoginPage";
 
-function App() {
+export default function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        {/* Routes nest inside one another. Nested route paths build upon
+              parent route paths, and nested route elements render inside
+              parent route elements. See the note about <Outlet> below. */}
+        <Routes>
+          <Route exact path="/" element={<LandingPage/>} />
+          <Route path="/login" element={<LoginPage/>} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
-
-export default App;
