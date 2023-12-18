@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
-@Table(name = "notice")
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class Notice extends BaseEntity {
@@ -28,7 +27,7 @@ public class Notice extends BaseEntity {
     private String contents;
     @Column(name = "notice_count")
     private int count;
-    private int likes;
+    private int like;
     private LocalDateTime writeDate;
 
     @Embedded
@@ -39,11 +38,11 @@ public class Notice extends BaseEntity {
     private Member member;
 
     @Builder
-    private Notice(String title, String contents, int count, int likes, LocalDateTime writeDate, Search search, Member member){
+    private Notice(String title, String contents, int count, int like, LocalDateTime writeDate, Search search, Member member){
         this.title = title;
         this.contents = contents;
         this.count = count;
-        this.likes = likes;
+        this.like = like;
         this.writeDate = writeDate;
         this.search = search;
         this.member = member;
