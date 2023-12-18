@@ -14,7 +14,6 @@ import lombok.Data;
 @Schema(description = "회원 가입을 위한 DTO")
 public class MemberCreateRequest {
     @Schema(description = "간편 로그인 사용자의 Oauth 아이디 입니다.")
-    @NotBlank(message = "고유번호는 필수입니다.")
     private String oauthId;
 
     @Schema(description = "사용자 이메일(아이디)을 입혁합니다.")
@@ -36,7 +35,6 @@ public class MemberCreateRequest {
     private String phone;
 
     @Schema(description = "사용자 행정구역을 입력합니다.")
-    @NotBlank(message = "행정구역은 필수입니다.")
     private District district;
 
     @Schema(description = "사용자 거주 도시(시/군/구)를 입력합니다.")

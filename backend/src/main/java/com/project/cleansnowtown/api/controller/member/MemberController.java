@@ -11,6 +11,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,7 +39,8 @@ public class MemberController {
     public ResponseEntity<String> sendSms(@Valid @RequestBody MessageRequest request)
             throws UnsupportedEncodingException, URISyntaxException, NoSuchAlgorithmException, InvalidKeyException, JsonProcessingException {
 
-        return ResponseEntity.ok(smsService.sendSms(request.getTo()));
+        String to = smsService.sendSms(request.getTo());
+        return ResponseEntity.status(HttpStatus.OK).body(to);
     }
 
     @PostMapping("/verify")
@@ -52,13 +54,15 @@ public class MemberController {
     public ResponseEntity<MemberUpdateResponse> update(
             @Valid @RequestBody MemberUpdateRequest request) {
 
-        return ResponseEntity.ok(memberService.updateMember(request));
+        MemberUpdateResponse response = memberService.updateMember(request);
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @GetMapping
     public ResponseEntity<MemberResponse> info() {
 
-        return ResponseEntity.ok(memberService.getMemberInfo());
+        MemberResponse response = memberService.getMemberInfo();
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 
     @DeleteMapping

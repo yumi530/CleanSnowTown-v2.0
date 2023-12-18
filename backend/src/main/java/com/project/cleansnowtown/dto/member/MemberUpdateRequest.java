@@ -22,7 +22,6 @@ public class MemberUpdateRequest {
     private String phone;
 
     @Schema(description = "사용자 행정구역을 입력합니다.")
-    @NotBlank(message = "행정구역 필수입니다.")
     private District district;
 
     @Schema(description = "사용자 거주 도시(시/군/구)를 입력합니다.")
