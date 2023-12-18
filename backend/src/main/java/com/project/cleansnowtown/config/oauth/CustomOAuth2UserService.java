@@ -43,7 +43,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         return new CustomOAuth2User(
                 Collections.singleton(new SimpleGrantedAuthority(createdMember.getMemberRole().getText())),
                 attributes,
-                extractAttributes.getNameAttributeKey(),
+                extractAttributes.nameAttributeKey(),
                 createdMember.getEmail(),
                 createdMember.getMemberRole()
         );
@@ -51,7 +51,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private Member getMember(OAuthAttributes attributes, OauthType oauthType) {
 
-        Member findMember = memberRepository.findByOauthTypeAndOauthId(oauthType, attributes.getOauth2UserInfo().getId());
+        Member findMember = memberRepository.findByOauthTypeAndOauthId(oauthType, attributes.oauth2UserInfo().getId()).orElse(null);
         if(findMember == null) {
             return saveMember(attributes, oauthType);
         }
@@ -60,10 +60,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private Member saveMember(OAuthAttributes attributes, OauthType oauthType) {
 
-        Member createdMember = attributes.toEntity(oauthType, attributes.getOauth2UserInfo());
+        Member createdMember = attributes.toEntity(oauthType, attributes.oauth2UserInfo());
         return memberRepository.save(createdMember);
     }
-
 
     private OauthType getOauthType(String registrationId) {
 

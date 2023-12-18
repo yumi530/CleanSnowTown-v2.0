@@ -17,6 +17,7 @@ public class CustomOAuth2User extends DefaultOAuth2User {
     public CustomOAuth2User(Collection<? extends GrantedAuthority> authorities,
                             Map<String, Object> attributes, String nameAttributeKey,
                             String email, MemberRole memberRole) {
+
         super(authorities, attributes, nameAttributeKey);
         this.email = email;
         this.memberRole = memberRole;

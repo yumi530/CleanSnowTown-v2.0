@@ -4,7 +4,6 @@ import com.project.cleansnowtown.domain.member.Member;
 import com.project.cleansnowtown.domain.member.MemberRepository;
 import com.project.cleansnowtown.domain.member.MemberRole;
 import com.project.cleansnowtown.jwt.service.JwtService;
-import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +19,7 @@ import java.io.IOException;
 @Component
 @RequiredArgsConstructor
 public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
+
     private final JwtService jwtService;
     private final MemberRepository memberRepository;
 
@@ -48,6 +48,7 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
     }
 
     private void loginSuccess(HttpServletResponse response, CustomOAuth2User oAuth2User) throws IOException {
+
         String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
         String refreshToken = jwtService.createRefreshToken();
         response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);

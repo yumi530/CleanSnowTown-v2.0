@@ -1,4 +1,4 @@
-package com.project.cleansnowtown.config.oauth;
+package com.project.cleansnowtown.config.oauth.provider;
 
 import java.util.Map;
 

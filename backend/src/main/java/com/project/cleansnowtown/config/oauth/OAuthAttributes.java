@@ -1,5 +1,8 @@
 package com.project.cleansnowtown.config.oauth;
 
+import com.project.cleansnowtown.config.oauth.provider.KakaoOAuth2UserInfo;
+import com.project.cleansnowtown.config.oauth.provider.NaverOAuth2UserInfo;
+import com.project.cleansnowtown.config.oauth.provider.OAuth2UserInfo;
 import com.project.cleansnowtown.domain.member.Member;
 import com.project.cleansnowtown.domain.member.MemberRole;
 import com.project.cleansnowtown.domain.member.OauthType;
@@ -12,12 +15,11 @@ import java.util.UUID;
 @Builder(access = AccessLevel.PRIVATE)
 @Getter
 @RequiredArgsConstructor
-public class OAuthAttributes {
-    private final String nameAttributeKey;
-    private final OAuth2UserInfo oauth2UserInfo;
+public record OAuthAttributes(String nameAttributeKey,
+                              OAuth2UserInfo oauth2UserInfo) {
 
     public static OAuthAttributes of(OauthType oauthType, String attributeKey,
-                                       Map<String, Object> attributes) {
+                                     Map<String, Object> attributes) {
 
         switch (oauthType) {
             case KAKAO:
@@ -30,6 +32,7 @@ public class OAuthAttributes {
     }
 
     private static OAuthAttributes ofKakao(String userNameAttributeName, Map<String, Object> attributes) {
+
         return OAuthAttributes.builder()
                 .nameAttributeKey(userNameAttributeName)
                 .oauth2UserInfo(new KakaoOAuth2UserInfo(attributes))
@@ -37,6 +40,7 @@ public class OAuthAttributes {
     }
 
     public static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes) {
+
         return OAuthAttributes.builder()
                 .nameAttributeKey(userNameAttributeName)
                 .oauth2UserInfo(new NaverOAuth2UserInfo(attributes))
@@ -44,6 +48,7 @@ public class OAuthAttributes {
     }
 
     Member toEntity(OauthType oauthType, OAuth2UserInfo oauth2UserInfo) {
+
         return Member.builder()
                 .oauthType(oauthType)
                 .oauthId(oauth2UserInfo.getId())
