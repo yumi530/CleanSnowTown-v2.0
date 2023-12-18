@@ -83,11 +83,14 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
+
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                                 .requestMatchers("/").permitAll()
+                                .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                                 .requestMatchers("/api/v1/member/login/oauth/code/**").permitAll()
                                 .requestMatchers("/api/**", "/api/v1/member/signup", "/api/v1/member/login").permitAll()
-                                .requestMatchers("/token/refresh").hasAnyAuthority(MemberRole.USER.name())
+                                .requestMatchers("/token/refresh").hasAnyAuthority(MemberRole.USER.name(), MemberRole.OAUTH_USER.name(),
+                                        MemberRole.ADMIN.name(),MemberRole.PICK_UP_MANAGER.name())
                                 .requestMatchers("/token/**").permitAll()
 //                        .requestMatchers(PathRequest.toH2Console()).permitAll()
                                 .requestMatchers("/admin/**").hasAnyAuthority(MemberRole.ADMIN.name())
@@ -135,6 +138,7 @@ public class SecurityConfig {
 
         return new LoginSuccessHandler(jwtService, memberRepository);
     }
+
     @Bean
     public LoginFailureHandler loginFailureHandler() {
 
