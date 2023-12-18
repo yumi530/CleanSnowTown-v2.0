@@ -30,10 +30,10 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         try {
             CustomOAuth2User oAuth2User = (CustomOAuth2User) authentication.getPrincipal();
 
-            if (oAuth2User.getMemberRole() == MemberRole.OAUTH_USER) {
+            if (oAuth2User.getMemberRole() == MemberRole.GUEST) {
                 String accessToken = jwtService.createAccessToken(oAuth2User.getEmail());
                 response.addHeader(jwtService.getAccessHeader(), "Bearer " + accessToken);
-                response.sendRedirect("/api/v1/oauth2/signup");
+                response.sendRedirect("/api/v1/member/oauth2/signup");
 
                 jwtService.sendAccessAndRefreshToken(response, accessToken, null);
                 Member findMember = memberRepository.findByEmail(oAuth2User.getEmail())

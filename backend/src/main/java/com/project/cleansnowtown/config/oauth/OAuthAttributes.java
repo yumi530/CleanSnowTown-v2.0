@@ -15,14 +15,14 @@ import java.util.UUID;
 public record OAuthAttributes(String nameAttributeKey,
                               OAuth2UserInfo oauth2UserInfo) {
 
-    public static OAuthAttributes of(OauthType oauthType, String attributeKey,
+    public static OAuthAttributes of(OauthType oauthType, String userNameAttributeName,
                                      Map<String, Object> attributes) {
 
         switch (oauthType) {
             case KAKAO:
-                return ofKakao("email", attributes);
+                return ofKakao(userNameAttributeName, attributes);
             case NAVER:
-                return ofNaver("id", attributes);
+                return ofNaver(userNameAttributeName, attributes);
             default:
                 throw new RuntimeException();
         }
@@ -50,8 +50,8 @@ public record OAuthAttributes(String nameAttributeKey,
                 .oauthType(oauthType)
                 .oauthId(oauth2UserInfo.getId())
                 .email(UUID.randomUUID() + "@socialUser.com")
-                .username(oauth2UserInfo.getUsername())
-                .memberRole(MemberRole.OAUTH_USER)
+                .nickname(oauth2UserInfo.getNickname())
+                .memberRole(MemberRole.GUEST)
                 .build();
     }
 }

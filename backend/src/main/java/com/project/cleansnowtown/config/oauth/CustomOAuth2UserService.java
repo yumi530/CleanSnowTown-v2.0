@@ -22,6 +22,8 @@ import java.util.Map;
 public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
     private final MemberRepository memberRepository;
 
+    private static final String NAVER = "naver";
+
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
 
@@ -41,7 +43,7 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
         Member createdMember = getMember(extractAttributes, oauthType);
 
         return new CustomOAuth2User(
-                Collections.singleton(new SimpleGrantedAuthority(createdMember.getMemberRole().getText())),
+                Collections.singleton(new SimpleGrantedAuthority(createdMember.getMemberRole().name())),
                 attributes,
                 extractAttributes.nameAttributeKey(),
                 createdMember.getEmail(),
@@ -66,10 +68,9 @@ public class CustomOAuth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private OauthType getOauthType(String registrationId) {
 
-        if ("naver".equals(registrationId)) {
+        if(NAVER.equals(registrationId)) {
             return OauthType.NAVER;
-        } else {
-            return OauthType.KAKAO;
         }
+            return OauthType.KAKAO;
     }
 }

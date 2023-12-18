@@ -83,11 +83,10 @@ public class SecurityConfig {
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
 
-
                 .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
                                 .requestMatchers("/").permitAll()
                                 .requestMatchers("/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                                .requestMatchers("/api/v1/member/login/oauth/code/**").permitAll()
+                                .requestMatchers("/oauth2/**").permitAll()
                                 .requestMatchers("/api/**", "/api/v1/member/signup", "/api/v1/member/login").permitAll()
                                 .requestMatchers("/token/refresh").hasAnyAuthority(MemberRole.USER.name(), MemberRole.OAUTH_USER.name(),
                                         MemberRole.ADMIN.name(),MemberRole.PICK_UP_MANAGER.name())
@@ -96,6 +95,15 @@ public class SecurityConfig {
                                 .requestMatchers("/admin/**").hasAnyAuthority(MemberRole.ADMIN.name())
                                 .anyRequest().authenticated()
                 )
+
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedHandler(jwtAccessDeniedHandler)
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
+                )
+
+                .headers(headers ->
+                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+
 
                 .oauth2Login(oauth2Login ->
                         oauth2Login
@@ -106,14 +114,7 @@ public class SecurityConfig {
                                 )
                 )
                 .addFilterAfter(customJsonUsernamePasswordAuthenticationFilter(), LogoutFilter.class)
-                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedHandler(jwtAccessDeniedHandler)
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)
-                )
-
-                .headers(headers ->
-                        headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+                .addFilterBefore(jwtAuthenticationProcessingFilter(), CustomJsonUsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
