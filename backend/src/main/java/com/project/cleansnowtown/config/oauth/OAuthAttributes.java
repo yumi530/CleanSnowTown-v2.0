@@ -11,10 +11,7 @@ import lombok.*;
 import java.util.Map;
 import java.util.UUID;
 
-@ToString
 @Builder(access = AccessLevel.PRIVATE)
-@Getter
-@RequiredArgsConstructor
 public record OAuthAttributes(String nameAttributeKey,
                               OAuth2UserInfo oauth2UserInfo) {
 
@@ -54,7 +51,7 @@ public record OAuthAttributes(String nameAttributeKey,
                 .oauthId(oauth2UserInfo.getId())
                 .email(UUID.randomUUID() + "@socialUser.com")
                 .username(oauth2UserInfo.getUsername())
-                .memberRole(MemberRole.GUEST)
+                .memberRole(MemberRole.OAUTH_USER)
                 .build();
     }
 }
