@@ -4,14 +4,22 @@ import com.project.cleansnowtown.config.oauth.OAuthAttributes;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.User;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    User findByUsername(String username);
 
     Optional<Member> findByEmail(String email);
 
-    Optional<Object> findByRefreshToken(String refreshToken);
+    Optional<Member> findByRefreshToken(String refreshToken);
 
-    Member findByOauthTypeAndOauthId(OauthType oauthType, String id);
+    Optional<Member> findByOauthTypeAndOauthId(OauthType oauthType, String id);
+
+    Optional<Member> findByPhone(String phone);
+
+    void deleteByEmail(String email);
+
+    List<Member> findAllByMemberRole(MemberRole user);
+
+    Optional<Member> findByOauthId(String oauthId);
 }

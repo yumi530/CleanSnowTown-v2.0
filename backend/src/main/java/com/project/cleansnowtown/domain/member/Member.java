@@ -5,6 +5,7 @@ import com.project.cleansnowtown.domain.Address;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.Search;
 import com.project.cleansnowtown.domain.order.Order;
+import com.project.cleansnowtown.dto.member.MemberUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -27,6 +28,7 @@ public class Member extends BaseEntity {
     private Long id;
     private String email;
     private String username;
+    private String nickname;
     private String password;
     private String phone;
     private int point;
@@ -53,13 +55,14 @@ public class Member extends BaseEntity {
     private List<Order> orders = new ArrayList<>();
 
     @Builder
-    private Member(String username, String password, String email, String phone,String oauthId, String refreshToken, OauthType oauthType, int point, Address address,
+    private Member(String username, String password, String email, String phone, String oauthId, String nickname, String refreshToken, OauthType oauthType, int point, Address address,
                    Search search, MemberRole memberRole, MemberStatus memberStatus,  District district, List<Order> orders) {
         this.username = username;
         this.password = password;
         this.email = email;
         this.phone = phone;
         this.oauthId = oauthId;
+        this.nickname = nickname;
         this.refreshToken = refreshToken;
         this.oauthType = oauthType;
         this.point = point;
@@ -70,12 +73,11 @@ public class Member extends BaseEntity {
         this.district = district;
         this.orders = orders;
     }
-    // 유저 권한 설정 메소드
+
     public void authorizeUser() {
         this.memberRole = USER;
     }
 
-    // 비밀번호 암호화 메소드
     public void passwordEncode(PasswordEncoder passwordEncoder) {
         this.password = passwordEncoder.encode(this.password);
     }
@@ -84,4 +86,15 @@ public class Member extends BaseEntity {
         this.refreshToken = updateRefreshToken;
     }
 
+    public void update(MemberUpdateRequest request, PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(request.getPassword());
+        this.phone = request.getPhone();
+        this.district = request.getDistrict();
+        this.address = Address.builder()
+                .city(request.getCity())
+                .street(request.getStreet())
+                .zipCode(request.getZipCode())
+                .build();
+
+    }
 }
