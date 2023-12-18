@@ -13,28 +13,30 @@ import lombok.RequiredArgsConstructor;
 import static jakarta.persistence.FetchType.LAZY;
 
 @Entity
+@Table(name = "removal")
 @Getter
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
-public class Pickup extends BaseEntity {
+public class Removal extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "pickup_id")
+    @Column(name = "removal_id")
     private Long id;
 
     @Embedded
     private Address address;
 
     @Enumerated(EnumType.STRING)
-    private PickupStatus pickupStatus;
+    @Column(name = "removal_status")
+    private RemovalStatus removalStatus;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "pickup", fetch = LAZY)
+    @OneToOne(mappedBy = "removal", fetch = LAZY)
     private Payment payment;
 
     @Builder
-    private Pickup(Address address, PickupStatus pickupStatus, Payment payment){
+    private Removal(Address address, RemovalStatus removalStatus, Payment payment){
         this.address = address;
-        this.pickupStatus = pickupStatus;
+        this.removalStatus = removalStatus;
         this.payment = payment;
     }
 }
