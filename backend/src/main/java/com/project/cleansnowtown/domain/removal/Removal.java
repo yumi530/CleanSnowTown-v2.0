@@ -1,4 +1,4 @@
-package com.project.cleansnowtown.domain.pickup;
+package com.project.cleansnowtown.domain.removal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.cleansnowtown.domain.Address;

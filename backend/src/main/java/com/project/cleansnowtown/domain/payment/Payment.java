@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.Search;
 import com.project.cleansnowtown.domain.order.Order;
-import com.project.cleansnowtown.domain.pickup.Removal;
+import com.project.cleansnowtown.domain.removal.Removal;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;

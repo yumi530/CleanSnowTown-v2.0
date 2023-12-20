@@ -1,4 +1,4 @@
-package com.project.cleansnowtown.domain.pickup;
+package com.project.cleansnowtown.domain.removal;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
