@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.Search;
 import com.project.cleansnowtown.domain.order.Order;
-import com.project.cleansnowtown.domain.pickup.Pickup;
+import com.project.cleansnowtown.domain.pickup.Removal;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,18 +29,18 @@ public class Payment extends BaseEntity {
     private PaymentStatus paymentStatus;
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "pickup_id")
-    private Pickup pickup;
+    @JoinColumn(name = "removal_id")
+    private Removal removal;
 
     @JsonIgnore
     @OneToOne(mappedBy = "payment", fetch = LAZY)
     private Order order;
 
     @Builder
-    private Payment(Search search, PaymentStatus paymentStatus, Pickup pickup, Order order){
+    private Payment(Search search, PaymentStatus paymentStatus, Removal removal, Order order){
         this.search = search;
         this.paymentStatus = paymentStatus;
-        this.pickup = pickup;
+        this.removal = removal;
         this.order = order;
     }
 }
