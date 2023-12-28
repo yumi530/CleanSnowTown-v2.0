@@ -5,6 +5,7 @@ import com.project.cleansnowtown.domain.Address;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.Search;
 import com.project.cleansnowtown.domain.order.Order;
+import com.project.cleansnowtown.domain.member.District;
 import com.project.cleansnowtown.dto.member.MemberUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -38,6 +39,9 @@ public class Member extends BaseEntity {
     @Embedded
     private Address address;
 
+    @Enumerated(EnumType.STRING)
+    private District district;
+
     @Embedded
     private Search search;
 
@@ -47,8 +51,7 @@ public class Member extends BaseEntity {
     private OauthType oauthType;
     @Enumerated(EnumType.STRING)
     private MemberStatus memberStatus;
-    @Enumerated(EnumType.STRING)
-    private District district;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "member")
@@ -95,6 +98,5 @@ public class Member extends BaseEntity {
                 .street(request.getStreet())
                 .zipCode(request.getZipCode())
                 .build();
-
     }
 }

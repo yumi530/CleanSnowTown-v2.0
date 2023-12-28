@@ -3,7 +3,8 @@ package com.project.cleansnowtown.domain.removal;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.project.cleansnowtown.domain.Address;
 import com.project.cleansnowtown.domain.BaseEntity;
-import com.project.cleansnowtown.domain.payment.Payment;
+import com.project.cleansnowtown.domain.member.District;
+import com.project.cleansnowtown.domain.order.Order;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,14 +30,18 @@ public class Removal extends BaseEntity {
     @Column(name = "removal_status")
     private RemovalStatus removalStatus;
 
+    @Enumerated(EnumType.STRING)
+    private District district;
+
     @JsonIgnore
     @OneToOne(mappedBy = "removal", fetch = LAZY)
-    private Payment payment;
+    private Order order;
 
     @Builder
-    private Removal(Address address, RemovalStatus removalStatus, Payment payment){
+    private Removal(Address address, RemovalStatus removalStatus, District district, Order order){
         this.address = address;
         this.removalStatus = removalStatus;
-        this.payment = payment;
+        this.district = district;
+        this.order = order;
     }
 }

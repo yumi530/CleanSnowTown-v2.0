@@ -3,14 +3,11 @@ package com.project.cleansnowtown.domain.item;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.Search;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 @Entity
 @Getter
-@RequiredArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Item extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,6 +16,8 @@ public class Item extends BaseEntity {
     @Column(name = "item_name")
     private String name;
     private int price;
+    private String size;
+    private String type;
 
     @Embedded
     private Search search;
@@ -27,9 +26,11 @@ public class Item extends BaseEntity {
     private Category category;
 
     @Builder
-    private Item(String name, int price, Search search, Category category){
+    private Item(String name, int price, String size, String type, Search search, Category category){
         this.name = name;
         this.price = price;
+        this.size = size;
+        this.type = type;
         this.search = search;
         this.category = category;
     }

@@ -2,9 +2,11 @@ package com.project.cleansnowtown.domain.order;
 
 import com.project.cleansnowtown.domain.Address;
 import com.project.cleansnowtown.domain.BaseEntity;
+import com.project.cleansnowtown.domain.Search;
 import com.project.cleansnowtown.domain.payment.Payment;
 import com.project.cleansnowtown.domain.member.Member;
 import com.project.cleansnowtown.domain.order_item.OrderItem;
+import com.project.cleansnowtown.domain.removal.Removal;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -32,6 +34,9 @@ public class Order extends BaseEntity {
     @Embedded
     private Address address;
 
+    @Embedded
+    private Search search;
+
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
@@ -40,16 +45,33 @@ public class Order extends BaseEntity {
     private List<OrderItem> orderItems = new ArrayList<>();
 
     @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "removal_id")
+    private Removal removal;
+
+    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
+
+
     @Builder
-    private Order(LocalDateTime orderDate, Address address, Member member, Payment payment, List<OrderItem> orderItems){
+    private Order(LocalDateTime orderDate, Address address, Search search,Member member, Removal removal, Payment payment, List<OrderItem> orderItems){
         this.orderDate = orderDate;
         this.address = address;
+        this.search = search;
         this.member = member;
+        this.removal = removal;
         this.payment = payment;
         this.orderItems = orderItems;
     }
 
+
+    public static Order createOrder(Member member, Removal removal, OrderItem... orderItems) {
+
+        return Order.builder()
+                .member(member)
+                .removal(removal)
+                .orderItems(List.of(orderItems))
+                .build();
+    }
 }

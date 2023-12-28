@@ -1,14 +1,17 @@
 package com.project.cleansnowtown.domain.order_item;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.project.cleansnowtown.domain.Address;
 import com.project.cleansnowtown.domain.BaseEntity;
 import com.project.cleansnowtown.domain.item.Item;
 import com.project.cleansnowtown.domain.order.Order;
+import com.project.cleansnowtown.dto.member.MemberUpdateRequest;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -34,10 +37,19 @@ public class OrderItem extends BaseEntity {
     private Order order;
 
     @Builder
-    private OrderItem(int count, int totalPrice, Item item, Order order){
+    private OrderItem(int count, int totalPrice, Item item, Order order) {
         this.count = count;
         this.totalPrice = totalPrice;
         this.item = item;
         this.order = order;
+    }
+
+    public static OrderItem createOrderItem(Item item, int totalPrice, int count) {
+
+        return OrderItem.builder()
+                .item(item)
+                .totalPrice(totalPrice)
+                .count(count)
+                .build();
     }
 }
