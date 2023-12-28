@@ -18,7 +18,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
 import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 @RestController
-@RequestMapping("api/v1/admin/member")
+@RequestMapping("/admin/api/v1/member")
 @RequiredArgsConstructor
 public class AdminMemberController {
 
